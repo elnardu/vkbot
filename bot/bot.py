@@ -1,18 +1,18 @@
-import time, logging
+import time, logging, os
 from .checker import Checker
 from .tools import Tools
 from .vkapi import vkapi as vk
 from .config import config
 
+dir_name = os.path.dirname(os.path.abspath(__file__))
+
+if config.get('LOG_TO_FILE'):
+	logging.basicConfig(filename=dir_name+'/../bot.log', level=logging.INFO, format='%(asctime)s [%(levelname)s]: %(message)s')
+else:
+	logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s]: %(message)s')
 
 logger = logging.getLogger(__name__)
 logging.getLogger("requests").setLevel(logging.WARNING)
-
-import coloredlogs
-coloredlogs.DEFAULT_LOG_FORMAT = "%(asctime)s - %(levelname)s - %(message)s"
-# coloredlogs.install(level="DEBUG")
-coloredlogs.install()
-
 
 class Bot():
 	def __init__(self):
@@ -31,14 +31,19 @@ class Bot():
 		self.lastmessage_id = self.vkapi.messages.get(count = 1)['items'][0]['id']
 
 		# self.handleMessages(self.vkapi.messages.get(count = 1)['items'])
-
-		while True:
-			try:
+		if config.get('ERROR_SAFE'):
+			while True:
+				try:
+					messages = self.vkapi.messages.get(last_message_id = self.lastmessage_id)['items']
+					self.handleMessages(messages)
+					time.sleep(self.update_interval)
+				except Exception as e:
+					logger.error(e)
+		else:
+			while True:
 				messages = self.vkapi.messages.get(last_message_id = self.lastmessage_id)['items']
 				self.handleMessages(messages)
 				time.sleep(self.update_interval)
-			except Exception as e:
-				logger.error(e)
 
 	def handleMessages(self, messages):
 		for message in messages:
