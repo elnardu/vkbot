@@ -112,3 +112,4 @@ ENV/
 
 bot.log
 config.json
+tmp/
