@@ -113,3 +113,4 @@ ENV/
 bot.log
 config.json
 tmp/
+.DS_Store
