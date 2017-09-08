@@ -58,12 +58,4 @@ def imageSearch(text, message):
 		else:
 			return "Картинок нет"
 
-
-def mishaIdetNah(text, message):
-	if str(message['user_id']) == "219431294":
-		return {
-			'message': 'Иди нахер',
-			'forward_messages': message['id']
-			}
-
 active = [imageSearch, dictResponses, respNothing, countDown, countDownSher]

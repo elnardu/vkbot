@@ -35,4 +35,4 @@ class ImageSearch():
 			return None
 
 imageSearch = ImageSearch()
-__all__ = [imageSearch]
+__all__ = ['imageSearch']

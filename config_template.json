@@ -1,0 +1,6 @@
+{
+	"UPDATE_INTERVAL": 2,
+	"VKAPI_TOKEN": "YOUR TOKEN",
+	"LOG_TO_FILE": true,
+	"ERROR_SAFE": true
+}
